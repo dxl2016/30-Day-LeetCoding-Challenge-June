@@ -1,0 +1,25 @@
+class Solution:
+    def twoCitySchedCost(self, costs: List[List[int]]) -> int:
+        if not costs:
+            return 0
+        temp = {}
+        n = int(len(costs)/2)
+        for i,j in costs:
+            try:
+                temp[i-j].append([i,j])
+            except:
+                temp[i-j] = [[i,j]]
+        a = sorted(temp.items())
+        cityA, cityB = 0, 0
+        ans = 0
+        for items in a:
+            for j in items[1]:
+                if cityA<n:
+                    ans += j[0]
+                    cityA += 1
+                else:
+                    ans += j[1]
+                    cityB += 1
+                    
+        return ans
+        
