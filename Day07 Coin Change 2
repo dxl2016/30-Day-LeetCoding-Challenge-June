@@ -1,0 +1,41 @@
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        if amount == 0 and not coins:
+            return 1
+        elif not coins:
+            return 0
+        if amount == 0 and coins:
+            return 1
+    
+        if amount == coins[0] and len(coins) == 1:
+            return 1
+        coins = sorted(coins, reverse=False)
+        def has_factor(nums):
+            if 1 in coins:
+                for i in coins[1:]:
+                    if nums%i == 0:
+                        return nums//i
+            else:
+                for i in coins:
+                    if nums%i == 0:
+                        return nums//i
+            return 0
+
+        #denominations are unique!!!
+        ans = collections.defaultdict(list)
+        for k in range(1, amount+1):
+            if k == 1:
+                if 1 in coins:
+                    ans[k-1] += [1]
+                else:
+                    ans[k-1] += [0]
+            else:
+                factor = has_factor(k)
+                if factor > 0:
+                    ans[k-1] += [factor]
+                if 1 in coins and ans[k-2]:
+                    ans[k-1] += map(lambda x: x+1, ans[k-2])
+        return len(ans[amount-1])
+        
+        
+        
