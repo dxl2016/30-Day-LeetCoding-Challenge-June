@@ -1,0 +1,41 @@
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        if not nums:
+            return
+        n = len(nums)
+        r, w, b = -1, -1, -1
+        flag_w, flag_b = 0, 0
+        for key,val in enumerate(nums):
+            if val == 0:
+                r+=1
+                nums[r] = 0
+                if w > -1 and flag_w == 1:
+                    w+=1
+                    nums[w] = 1
+                else:
+                    w = r
+                if b > -1 and flag_b == 1:
+                    b+=1
+                    nums[b] = 2
+                else:
+                    b = w
+            elif val == 1:
+                flag_w = 1
+                w+=1
+                nums[w] = 1
+                if b > -1 and flag_b == 1:
+                    b+=1
+                    nums[b] = 2
+                else:
+                    b = w
+            elif val == 2:
+                flag_b = 1
+                b+=1
+                nums[b] = 2
+        
+        print(nums)
+                
+            
