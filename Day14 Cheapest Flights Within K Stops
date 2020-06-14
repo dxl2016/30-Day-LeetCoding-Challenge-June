@@ -1,0 +1,52 @@
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:     
+        if not flights:
+            return -1
+        
+#         temp = {}
+#         for i in range(n):
+#             temp[i] = []
+#         for items in flights:
+#             temp[items[0]].append((items[1], items[2]))
+        
+#         def dfs(node, curr_cost, k):
+#             if k <= K:
+#                 if node == dst:
+#                     self.min_cost = min(self.min_cost, curr_cost)
+#                     return
+                
+#                 if curr_cost >= self.min_cost:
+#                     return
+#                 else:
+#                     if temp[node]:
+#                         for children in temp[node]:
+#                             dfs(children[0], curr_cost+children[1], k+1)
+
+#         self.min_cost = float('Inf')
+#         if temp[src]:
+#             for children in temp[src]:
+#                 dfs(children[0], children[1], 0)
+        
+#         return self.min_cost if self.min_cost != float('Inf') else -1
+        
+    
+        temp = {}
+        for i in range(n):
+            temp[i] = []
+        for items in flights:
+            temp[items[0]].append([items[1], items[2]])
+        
+        q = deque([[src, 0, 0]])
+        self.min_cost = float('inf')
+        while(q):
+            node,curr_cost,k = q.popleft()
+            if curr_cost <= self.min_cost and k <= K and node != dst:
+                for nxt,cost in temp[node]:
+                    q.append([nxt,curr_cost+cost,k+1])
+            
+            if node == dst:
+                self.min_cost = min(self.min_cost, curr_cost)
+        
+        return self.min_cost if self.min_cost != float('Inf') else -1
+
+
