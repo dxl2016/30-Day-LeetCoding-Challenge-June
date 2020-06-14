@@ -1,0 +1,35 @@
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:     
+        if not flights:
+            return -1
+        
+        temp = {}
+        for i in range(n):
+            temp[i] = []
+        for items in flights:
+            temp[items[0]].append((items[1], items[2]))
+        
+        def dfs(node, curr_cost, k):
+            if k <= K:
+                if node == dst:
+                    final_cost.append(curr_cost)
+                    self.min_cost = min(final_cost)
+                    return
+                
+                if final_cost and curr_cost >= self.min_cost:
+                    return
+                else:
+                    if temp[node]:
+                        for children in temp[node]:
+                            dfs(children[0], curr_cost+children[1], k+1)
+                
+        
+        final_cost = []
+        self.min_cost = 0
+        if temp[src]:
+            for children in temp[src]:
+                dfs(children[0], children[1], 0)
+        
+        return min(final_cost) if final_cost else -1
+            
+ 
