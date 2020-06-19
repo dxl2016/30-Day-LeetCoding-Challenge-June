@@ -1,0 +1,59 @@
+class Solution:
+    def validIPAddress(self, IP: str) -> str:
+        if not IP:
+            return "Neither"
+        
+        def isHexadecimal(s):
+            dict_hexadecimal = "0123456789abcdefABCDEF"
+            return True if s in dict_hexadecimal else False
+            
+        def isIPv4(s):
+            if len(s) != 4:
+                return "Neither"
+            
+            for items in s:
+                if not items:
+                    return "Neither"
+                elif len(items) > 1 and items[0] == '0':
+                    return "Neither"
+                elif len(items) > 1:
+                    try:
+                        if int(items) > 255:
+                            return "Neither"
+                    except:
+                        return "Neither"
+                    
+            return "IPv4"
+        
+        def isIPv6(s):
+            if len(s) != 8:
+                return "Neither"
+            for items in s:
+                if not items:
+                    return "Neither"
+                elif len(items) > 4:
+                    return "Neither"
+
+            return "IPv6"
+        
+        s1 = IP.split('.')
+        s2 = IP.split(':')
+        if len(s1) == 4:
+            for items in s1:
+                for ss in items:
+                    if not isHexadecimal(ss):
+                        return "Neither"
+            
+            ans = isIPv4(s1)
+        elif len(s2) == 8:
+            for items in s2:
+                for ss in items:
+                    if not isHexadecimal(ss):
+                        return "Neither"
+            ans = isIPv6(s2)
+        else:
+            return "Neither"
+        
+        return ans
+
+
