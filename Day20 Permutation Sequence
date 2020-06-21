@@ -1,0 +1,40 @@
+class Solution:
+    def getPermutation(self, n: int, k: int) -> str:
+        if not n or not k:
+            return ""
+        
+        ans = ""
+        temp = [i for i in range(1,n+1)]
+        while(temp):
+            fc = math.factorial(len(temp)-1)
+            num, k = k//fc, k%fc
+            if k == 0:
+                ans += str(temp[num-1])
+                temp.remove(temp[num-1])
+            else:
+                ans += str(temp[num])
+                temp.remove(temp[num])
+                
+        return ans
+        
+        
+    
+#         if not n or not k:
+#             return ""
+        
+#         temp = set()
+#         def rec(s, dict_):
+#             if len(s) > n:
+#                 return
+            
+#             if len(s) == n:
+#                 temp.add(s)
+#             for j in range(1, n+1):
+#                 if j not in dict_:
+#                     rec(s+str(j), dict_+[j])
+    
+#         for i in range(1, n+1):
+#             rec(str(i), [i])
+    
+#         return sorted(temp)[k-1]
+
