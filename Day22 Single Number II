@@ -1,0 +1,11 @@
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        temp = {}
+        for i in nums:
+            try:
+                temp[i] += 1
+            except:
+                temp[i] = 1
+        ans = sorted(temp.items(), reverse=False, key=lambda x:x[1])
+        return ans[0][0]
+
