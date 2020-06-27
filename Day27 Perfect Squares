@@ -1,0 +1,15 @@
+class Solution:
+    @lru_cache(None)
+    def numSquares(self, n: int) -> int:
+        if n == 0:
+            return 0
+        if n**0.5%2 == 0:
+            return 1
+        
+        max_div = int(n**0.5)
+        ans = float('Inf')
+        for i in range(max_div, 0, -1):
+            ans = min(ans, self.numSquares(n-i*i)+1)
+        
+        return ans
+
