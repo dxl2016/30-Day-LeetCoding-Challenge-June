@@ -1,0 +1,21 @@
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        tickets = sorted(tickets, reverse=False, key=lambda x:x[1])
+        tmp = {}
+        for d, l in tickets:
+            try:
+                tmp[d].append(l)
+            except:
+                tmp[d] = deque([l])
+        print(tmp)
+        ans = []
+        q = [("JFK")]
+        while(q):
+            curr = q[-1]
+            if curr in tmp and len(tmp[curr])>0:
+                q.append(tmp[curr].popleft())
+            else:
+                ans.append(q.pop())
+        
+        return ans[::-1]
+
