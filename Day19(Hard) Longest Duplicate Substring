@@ -1,0 +1,64 @@
+class Solution:
+    def longestDupSubstring(self, S: str) -> str:
+        def RabinKarp(text, M, q):
+            if M == 0: return True
+            h, t, d = (1<<(8*M-8))%q, 0, 256
+
+            dic = collections.defaultdict(list)
+
+            for i in range(M): 
+                t = (d * t + ord(text[i])) % q
+
+            dic[t].append(i-M+1)
+
+            for i in range(len(text) - M):
+                t = (d*(t-ord(text[i])*h) + ord(text[i + M])) % q
+                for j in dic[t]:
+                    if text[i+1:i+M+1] == text[j:j+M]:
+                        return (True, text[j:j+M])
+                dic[t].append(i+1)
+            return (False, "")
+    
+        l, r = 0, len(S)
+        q = (1<<31) - 1 
+        ans = ""
+        while(l+1<r):
+            mid = (l+r)//2
+            isFound, candidate = RabinKarp(S, mid, q)
+            if isFound:
+                l, ans = mid, candidate
+            else:
+                r = mid
+
+        return ans
+    
+    
+    
+#         if not S:
+#             return ""
+        
+#         n = len(S)
+#         l, r = 0, n-1
+#         global_lngst = 1
+#         ans = ""
+#         while(l<=r):
+#             # print(global_lngst)
+#             mid = (l+r)//2
+#             temp = {}
+#             for i in range(0, n-mid+1):
+#                 try:
+#                     temp[S[i:i+mid]] += 1
+#                 except:
+#                     temp[S[i:i+mid]] = 1
+#             temp = sorted(temp.items(), reverse=True, key=lambda x:x[1])
+#             # print(temp)
+#             curr_lngst = len(temp[0][0]) if temp[0][1] >= 2 else 0
+#             if curr_lngst < global_lngst:
+#                 r = mid - 1
+#             else:
+#                 global_lngst = curr_lngst
+#                 ans = temp[0][0]
+#                 l = mid + 1
+        
+#         return ans
+
